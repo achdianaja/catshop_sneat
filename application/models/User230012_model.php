@@ -36,6 +36,17 @@ class User230012_model extends CI_Model
         return $this->db->update('users_230012', $data, ['id_230012' => $id]);
     }
 
+    public function update_profiles()
+    {
+        $data = array(
+            'username_230012' => $this->input->post('username_230012'),
+            'fullname_230012' => $this->input->post('fullname_230012')
+        );
+
+        $id = $this->session->userdata('id_230012');
+        return $this->db->update('users_230012', $data, ['id_230012' => $id]);
+    }
+
     public function delete($id)
     {
         return $this->db->delete('users_230012', ['id_230012' => $id]);

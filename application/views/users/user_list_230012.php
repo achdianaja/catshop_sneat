@@ -1,47 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>CAT SHOP 230012</title>
-</head>
-
-<body>
-	<h1>CAT SHOP 230012</h1>
-	<h2>USERS LIST</h2>
-    <a href="<?= base_url() ?>"><h4>HOME</h4></a>
-	<hr>
-	<?= $this->session->flashdata('msg') ?>
-	<a href="<?= site_url('user230012/add') ?>">Add New User</a>
-    <hr>
-	<table border="1">
-		<tr>
-			<th>No</th>
-			<th>Username</th>
-            <th>Usertype</th>
-			<th>Fullname</th>
-			<th colspan="3">Action</th>
-		</tr>
-
-		<?php 
-        foreach($users as $user): ?>
-		<tr>
-			<td><?= $i++ ?></td>
-			<td><?= $user->username_230012 ?></td>
-			<td><?= $user->usertype_230012 ?></td>
-			<td><?= $user->fullname_230012 ?></td>
-			<td><a href="<?= site_url('user230012/edit/' . $user->id_230012) ?>">Edit</a></td>
-			<td>
-                <a href="#" onclick="return confirm('Are you sure you want to delete this User?') ? window.location.href='<?= site_url('user230012/delete/' . $user->id_230012) ?>' : false;">Delete</a>
-			</td>
-            <td><a href="<?= site_url('user230012/reset_password/' . $user->id_230012) ?>">Reset</a></td>
-		</tr>
-		<?php endforeach ?>
-	</table>
-	<p><?= $this->pagination->create_links() ?></p>
-
-	<p><a href="<?= site_url('welcome') ?>">BACK TO HOME</a></p>
-</body>
-
-</html>
+<div class="card">
+<h5 class="card-header d-flex justify-content-between align-items-center">
+		User List
+		<a href="<?= site_url('user230012/add') ?>" class="btn btn-primary">Add New User</a>
+	</h5>
+	<div class="table-responsive text-nowrap">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>No</th>
+					<th>Username</th>
+					<th>Usertype</th>
+					<th>Fullname</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody class="table-border-bottom-0">
+				<?php foreach ($users as $user): ?>
+				<tr>
+					<td><?= $i++ ?></td>
+					<td><?= $user->username_230012 ?></td>
+					<td><?= $user->usertype_230012 ?></td>
+					<td><?= $user->fullname_230012 ?></td>
+					<td>
+						<div class="dropdown">
+							<button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+								<i class="icon-base bx bx-dots-vertical-rounded"></i>
+							</button>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="<?= site_url('user230012/edit/' . $user->id_230012) ?>">
+									<i class="icon-base bx bx-edit-alt me-1"></i> Edit
+								</a>
+								<a class="dropdown-item" href="#" onclick="return confirm('Are you sure you want to delete this User?') ? window.location.href='<?= site_url('user230012/delete/' . $user->id_230012) ?>' : false;">
+									<i class="icon-base bx bx-trash me-1"></i> Delete
+								</a>
+								<a class="dropdown-item" href="<?= site_url('user230012/reset_password/' . $user->id_230012) ?>">
+									<i class="icon-base bx bx-reset me-1"></i> Reset Password
+								</a>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="my-3">
+	<?= $pagination ?>
+</div>

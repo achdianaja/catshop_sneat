@@ -105,6 +105,60 @@ class Cats230012_model extends CI_Model
         return $this->db->update('cats_230012');
     }
 
+    public function get_profit()
+    {
+        $this->db->select_sum('cats_230012.price_230012');
+        $this->db->from('cat_sale_230012');
+        $this->db->join('cats_230012', 'cat_sale_230012.cat_id_230012 = cats_230012.id_230012');
+        return $this->db->get()->row()->price_230012;
+    }
+
+    public function get_sold()
+    {
+        $this->db->select('COUNT(*) as sold_count');
+        $this->db->from('cat_sale_230012');
+        return $this->db->get()->row()->sold_count;
+    }
+
+    public function get_last_sale_price()
+    {
+        $this->db->select('cats_230012.price_230012');
+        $this->db->from('cat_sale_230012');
+        $this->db->join('cats_230012', 'cat_sale_230012.cat_id_230012 = cats_230012.id_230012');
+        $this->db->order_by('cat_sale_230012.sale_id_230012', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get();
+        return $query->row()->price_230012 ?? 0;
+    }
+
+    public function get_weekly_sales()
+    {
+        $this->db->from('cat_sale_230012');
+        $this->db->where('DATE(sale_date_230012) >=', date('Y-m-d', strtotime('-7 days')));
+        return $this->db->count_all_results();
+    }
+
+    public function get_sales_last_7_days()
+    {
+        $this->db->select("DATE(sale_date_230012) as date, COUNT(*) as total");
+        $this->db->from('cat_sale_230012');
+        $this->db->where('sale_date_230012 >=', date('Y-m-d', strtotime('-6 days')));
+        $this->db->group_by('DATE(sale_date_230012)');
+        $this->db->order_by('DATE(sale_date_230012)', 'ASC');
+        $result = $this->db->get()->result();
+
+        $sales_data = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = date('Y-m-d', strtotime("-$i days"));
+            $sales_data[$date] = 0;
+        }
+
+        foreach ($result as $row) {
+            $sales_data[$row->date] = (int)$row->total;
+        }
+
+        return $sales_data;
+    }
 
     public function validate_sale()
     {

@@ -10,7 +10,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Demo: Login Basic - Pages | Sneat - Bootstrap Dashboard FREE</title>
+    <title>Login</title>
 
     <meta name="description" content="" />
 
@@ -132,9 +132,7 @@
                                         <input class="form-check-input" type="checkbox" id="remember-me" />
                                         <label class="form-check-label" for="remember-me"> Remember Me </label>
                                     </div>
-                                    <a href="auth-forgot-password-basic.html">
-                                        <span>Forgot Password?</span>
-                                    </a>
+                                   
                                 </div>
                             </div>
                             <div class="mb-6">

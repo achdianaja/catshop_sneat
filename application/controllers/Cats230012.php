@@ -23,23 +23,35 @@ class Cats230012 extends CI_Controller
 		parent::__construct();
 		$this->load->model('Cats230012_model');
 		$this->load->model('Category230012_model');
+		$this->load->library('app');
+		$this->load->helper('pagination_helper');
 	}
 
 	public function index()
 	{
 		$this->load->library('pagination');
-		$config['base_url'] = site_url('cats230012/index');
-		$config['total_rows'] = $this->db->count_all('cats_230012');
-		$config['per_page'] = 5;
-		$this->pagination->initialize($config);
 
-		$limit = $config['per_page'];
+		$total_rows = $this->db->count_all('cats_230012');
+		$per_page = 5;
 		$start = $this->uri->segment(3) ? $this->uri->segment(3) : 0;
 
+		$config = bootstrap_pagination_config(
+			site_url('cats230012/index'),
+			$total_rows,
+			$per_page,
+			3
+		);
+
+		$this->pagination->initialize($config);
+
 		$data['i'] = $start + 1;
-		$data['cats'] = $this->Cats230012_model->read($limit, $start);
-		$this->load->view('cats/cats_list_230012', $data);
+		$data['cats']  = $this->Cats230012_model->read($per_page, $start);
+		$data['title'] = 'Cats List';
+		$data['pagination'] = $this->pagination->create_links();
+
+		$this->app->template('cats/cats_list_230012', $data);
 	}
+
 
 	public function add()
 	{
@@ -47,9 +59,9 @@ class Cats230012 extends CI_Controller
 			if ($this->Cats230012_model->validation()) {
 				$this->Cats230012_model->create();
 				if ($this->db->affected_rows() > 0) {
-					$this->session->set_flashdata('msg', '<p style="color:green">Cat successfuly added!</p>');
+					$this->session->set_flashdata('msg', '<div class="alert alert-success">Cat successfully added!</div>');
 				} else {
-					$this->session->set_flashdata('msg', '<p style="color:red">Cat failed to added!</p>');
+					$this->session->set_flashdata('msg', '<div class="alert alert-danger">Cat failed to add!</div>');
 				}
 
 				redirect('/cats230012');
@@ -57,7 +69,8 @@ class Cats230012 extends CI_Controller
 		}
 
 		$data['categories'] = $this->Category230012_model->read_category();
-		$this->load->view('cats/cats_form_230012', $data);
+		$data['title'] = 'Cats Form Add';
+		$this->app->template('cats/cats_form_230012', $data);
 	}
 
 	public function edit($id)
@@ -80,16 +93,17 @@ class Cats230012 extends CI_Controller
 				}
 
 				if ($this->db->affected_rows() > 0) {
-					$this->session->set_flashdata('msg', '<p style="color:green">Cat successfully updated!</p>');
+					$this->session->set_flashdata('msg', '<div class="alert alert-success">Cat successfully updated!</div>');
 				} else {
-					$this->session->set_flashdata('msg', '<p style="color:red">Cat failed to update!</p>');
+					$this->session->set_flashdata('msg', '<div class="alert alert-danger">Cat failed to update!</div>');
 				}
 
 				redirect('/cats230012');
 			}
 		}
 
-		$this->load->view('cats/cats_form_230012', $data);
+		$data['title'] = 'Cats Form Edit';
+		$this->app->template('cats/cats_form_230012', $data);
 	}
 
 	private function upload($id)
@@ -102,7 +116,7 @@ class Cats230012 extends CI_Controller
 		$config['max_size'] = 2048;
 		$config['max_width'] = 1024;
 		$config['max_height'] = 768;
-		$config['file_name'] = $cat_name . '_' . time();
+		$config['file_name'] = $cat_name;
 
 		$this->load->library('upload', $config);
 
@@ -128,58 +142,14 @@ class Cats230012 extends CI_Controller
 		}
 	}
 
-
-
-
 	public function delete($id)
 	{
 		$this->Cats230012_model->delete($id);
 		if ($this->db->affected_rows() > 0) {
-			$this->session->set_flashdata('msg', '<p style="color:green">Cat successfuly deleted!</p>');
+			$this->session->set_flashdata('msg', '<div class="alert alert-success">Cat successfully deleted!</div>');
 		} else {
-			$this->session->set_flashdata('msg', '<p style="color:red">Cat failed to deleted!</p>');
+			$this->session->set_flashdata('msg', '<div class="alert alert-danger">Cat failed to delete!</div>');
 		}
 		redirect('/cats230012');
-	}
-
-	public function sale($id)
-	{
-		if (!$this->session->userdata('username_230012')) redirect('auth230012/login');
-		if ($this->session->userdata('usertype_230012') != "Manager") redirect('welcome');
-
-		if ($this->input->post('submit')) {
-			if ($this->Cats230012_model->validate_sale()) {
-				$this->Cats230012_model->sale($id);
-				if ($this->db->affected_rows() > 0) {
-					$this->session->set_flashdata('msg', '<p style="color:green">Cat successfully sold!</p>');
-				} else {
-					$this->session->set_flashdata('msg', '<p style="color:red">Cat failed to sell!</p>');
-				}
-
-				redirect('/cats230012');
-			}
-		}
-
-		$data['cat'] = $this->Cats230012_model->read_by($id);
-		$this->load->view('cats/cats_sale_230012', $data);
-	}
-
-	public function sales()
-	{
-		if (!$this->session->userdata('username_230012')) redirect('auth230012/login');
-		if ($this->session->userdata('usertype_230012') != "Manager") redirect('welcome');
-
-		$this->load->library('pagination');
-		$config['base_url'] = site_url('cats230012/index');
-		$config['total_rows'] = $this->db->count_all('cat_sale_230012');
-		$config['per_page'] = 5;
-		$this->pagination->initialize($config);
-
-		$limit = $config['per_page'];
-		$start = $this->uri->segment(3) ? $this->uri->segment(3) : 0;
-
-		$data['i'] = $start + 1;
-		$data['sales'] = $this->Cats230012_model->sales($limit, $start);
-		$this->load->view('cats/sale_list_230012', $data);
 	}
 }

@@ -19,34 +19,47 @@ class Category230012 extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('Category230012_model');
+		$this->load->library('app');
+		$this->load->helper('pagination_helper');
     }
 
     public function index()
 	{
 		$this->load->library('pagination');
-		$config['base_url'] = site_url('category230012/index');
-		$config['total_rows'] = $this->db->count_all('category_230012');
-		$config['per_page'] = 5;
-		$this->pagination->initialize($config);
 
-		$limit = $config['per_page'];
+		$total_rows = $this->db->count_all('category_230012');
+		$per_page = 10;
 		$start = $this->uri->segment(3) ? $this->uri->segment(3) : 0;
 
+		$config = bootstrap_pagination_config(
+			site_url('category230012/index'),
+			$total_rows,
+			$per_page,
+			3
+		);
+
+		$this->pagination->initialize($config);
+
 		$data['i'] = $start + 1;
-		$data['category'] = $this->Category230012_model->read($limit, $start);
-		$this->load->view('categories/category_list_230012', $data);
+		$data['category'] = $this->Category230012_model->read($per_page, $start);
+		$data['pagination'] = $this->pagination->create_links();
+		$data['title'] = 'Category List';
+
+		$this->app->template('categories/category_list_230012', $data);
 	}
+
 
 	public function add()
 	{
 		if ($this->Category230012_model->validate() == FALSE) {
-			$this->load->view('categories/category_form_230012');
+			$data['title'] = 'Add Category';
+			$this->app->template('categories/category_form_230012', $data);
 		} else {
 			$this->Category230012_model->create();
 			if ($this->db->affected_rows() > 0) {
-				$this->session->set_flashdata('msg', '<p style="color:green">Category successfully added!</p>');
+				$this->session->set_flashdata('msg', '<div class="alert alert-success">Category successfully added!</div>');
 			} else {
-				$this->session->set_flashdata('msg', '<p style="color:red">Category failed to add!</p>');
+				$this->session->set_flashdata('msg', '<div class="alert alert-danger">Category failed to add!</div>');
 			}
 			redirect('/category230012');
 		}
@@ -56,13 +69,14 @@ class Category230012 extends CI_Controller {
 	{
 		if ($this->Category230012_model->validate() == FALSE) {
 			$data['category'] = $this->Category230012_model->read_by($id);
-			$this->load->view('categories/category_form_230012', $data);
+			$data['title'] = 'Edit Category';
+			$this->app->template('categories/category_form_230012', $data);
 		} else {
 			$this->Category230012_model->update($id);
 			if ($this->db->affected_rows() > 0) {
-				$this->session->set_flashdata('msg', '<p style="color:green">Category successfully updated!</p>');
+				$this->session->set_flashdata('msg', '<div class="alert alert-success">Category successfully updated!</div>');
 			} else {
-				$this->session->set_flashdata('msg', '<p style="color:red">Category failed to update!</p>');
+				$this->session->set_flashdata('msg', '<div class="alert alert-danger">Category failed to update!</div>');
 			}
 			redirect('/category230012');
 		}
@@ -72,9 +86,9 @@ class Category230012 extends CI_Controller {
 	{
 		$this->Category230012_model->delete($id);
 		if($this->db->affected_rows() > 0){
-				$this->session->set_flashdata('msg', '<p style="color:green">Category successfuly deleted!</p>');
+				$this->session->set_flashdata('msg', '<div class="alert alert-success">Category successfully deleted!</div>');
 			} else {
-				$this->session->set_flashdata('msg', '<p style="color:red">Category failed to deleted!</p>');
+				$this->session->set_flashdata('msg', '<div class="alert alert-danger">Category failed to delete!</div>');
 			}
 		redirect('/category230012');
 	}

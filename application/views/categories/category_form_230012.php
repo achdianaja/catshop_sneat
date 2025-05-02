@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>CAT SHOP 230012</title>
-</head>
-
-<body>
-	<h1>CAT SHOP 230012</h1>
-	<h3>CATEGORY FORM</h3>
-	<hr>
-
-	<?php
+<?php
 	$name = '';
 	$description = '';
 	if (isset($category)) {
@@ -21,30 +7,31 @@
 	}
 	?>
 
-	<form action="" method="POST">
-		<div style="color: red;"><?= validation_errors() ?></div>
-		<div><?= $this->session->flashdata('msg') ?></div>
-		<table>
-			<tr>
-				<td>Name</td>
-				<td><input type="text" name="name_230012" id=""  value="<?= $name ?>"></td>
-			</tr>
-			<tr>
-				<td>Type</td>
-				<td>
-					<textarea name="description_230012" id="" require><?= $description ?></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>
-					<input type="submit" value="SAVE" name="submit" >
-					<input type="reset" value="RESET" >
-				</td>
-			</tr>
-		</table>
-	</form>
-	<p><a href="<?= site_url('/category230012') ?>">CANCEL</a></p>
-</body>
-
-</html>
+<div class="row mb-6 gy-6">
+	<div class="col-xl">
+		<div class="card">
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<h5 class="mb-0">Category Form</h5>
+				<small class="text-body float-end">
+					<a href="<?= base_url('category230012') ?>" class="btn btn-sm btn-outline-secondary">Back</a>
+				</small>
+			</div>
+			<div class="card-body">
+				<form action="" method="POST">
+					<div style="color: red;"><?= validation_errors() ?></div>
+					<div><?= $this->session->flashdata('msg') ?></div>
+					<div class="mb-6">
+						<label class="form-label" for="category-name">Name</label>
+						<input type="text" class="form-control" id="category-name" name="name_230012" value="<?= $name ?>" placeholder="Enter category name" />
+					</div>
+					<div class="mb-6">
+						<label class="form-label" for="category-description">Description</label>
+						<textarea class="form-control" id="category-description" name="description_230012" placeholder="Enter category description"><?= $description ?></textarea>
+					</div>
+					<input type="submit" class="btn btn-primary" name="submit" value="Save">
+					<button type="reset" class="btn btn-secondary">Reset</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,4 +1,4 @@
-<?php 
+    <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
                         
 class Auth230012_model extends CI_Model 

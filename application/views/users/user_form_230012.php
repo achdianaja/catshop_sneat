@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>CAT SHOP 230012</title>
-</head>
-
-<body>
-	<h1>CAT SHOP 230012</h1>
-	<h3>USER FORM</h3>
-	<hr>
-
-	<?php
+<?php
 	$username = '';
 	$usertype = '';
     $fullname = '';
@@ -23,35 +9,39 @@
 	}
 	?>
 
-	<form action="" method="POST">
-        <div style="color: red;"><?= validation_errors() ?></div>
-		<table>
-			<tr>
-				<td>Username</td>
-				<td><input type="text" name="username_230012" id=""  value="<?= $username ?>"></td>
-			</tr>
-			<tr>
-				<td>Usertype</td>
-				<td>
-                    <select name="usertype_230012" id="" >
-                        <option value="Manager" <?= ($usertype == 'Manager') ? 'selected' : '' ?>>Manager</option>
-                        <option value="Cashier" <?= ($usertype == 'Cashier') ? 'selected' : '' ?>>Cashier</option>
-                    </select>
-				</td>
-			</tr>
-            <tr>
-                <td>Fullname</td>
-                <td><input type="text" name="fullname_230012" id=""  value="<?= $fullname ?>"></td>
-			<tr>
-				<td></td>
-				<td>
-					<input type="submit" value="SAVE" name="submit" >
-					<input type="reset" value="RESET" >
-				</td>
-			</tr>
-		</table>
-	</form>
-	<p><a href="<?= site_url('/user230012') ?>">CANCEL</a></p>
-</body>
-
-</html>
+<div class="row mb-6 gy-6">
+	<div class="col-xl">
+		<div class="card">
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<h5 class="mb-0">User Form</h5>
+				<small class="text-body float-end">
+					<a href="<?= base_url('user230012') ?>" class="btn btn-sm btn-outline-secondary">Back</a>
+				</small>
+			</div>
+			<div class="card-body">
+				<form action="" method="POST">
+					<div style="color: red;"><?= validation_errors() ?></div>
+					<div class="mb-6">
+						<label class="form-label" for="username_230012">Username</label>
+						<input type="text" class="form-control" id="username_230012" name="username_230012"
+							value="<?= $username ?>" placeholder="Enter username">
+					</div>
+					<div class="mb-6">
+						<label class="form-label" for="usertype_230012">Usertype</label>
+						<select class="form-control" id="usertype_230012" name="usertype_230012">
+							<option value="Manager" <?= ($usertype == 'Manager') ? 'selected' : '' ?>>Manager</option>
+							<option value="Cashier" <?= ($usertype == 'Cashier') ? 'selected' : '' ?>>Cashier</option>
+						</select>
+					</div>
+					<div class="mb-6">
+						<label class="form-label" for="fullname_230012">Fullname</label>
+						<input type="text" class="form-control" id="fullname_230012" name="fullname_230012"
+							value="<?= $fullname ?>" placeholder="Enter fullname">
+					</div>
+					<input type="submit" class="btn btn-primary" name="submit" value="Save">
+					<button type="reset" class="btn btn-secondary">RESET</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

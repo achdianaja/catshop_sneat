@@ -69,24 +69,23 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Apps &amp; Pages</span>
         </li>
-        <li class="menu-item">
+        <li class="menu-item <?= ($this->uri->segment(1) == 'welcome') ? 'active' : '' ?>">
             <a
-                href="<?= site_url('welcome') ?>"
-                class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-smile"></i>
-                <div class="text-truncate" data-i18n="Dashboard">Dashboard</div>
+            href="<?= site_url('welcome') ?>"
+            class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-smile"></i>
+            <div class="text-truncate" data-i18n="Dashboard">Dashboard</div>
             </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item <?= ($this->uri->segment(1) == 'cats230012') ? 'active' : '' ?>">
             <a
                 href="<?= site_url('cats230012') ?>"
-                
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-cat"></i>
                 <div class="text-truncate" data-i18n="Manage Cats">Manage Cats</div>
             </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item <?= ($this->uri->segment(1) == 'category230012') ? 'active' : '' ?>">
             <a
                 href="<?= site_url('category230012') ?>"
                 
@@ -97,7 +96,7 @@
         </li>
 
         <?php if ($this->session->userdata('usertype_230012') == 'Manager') : ?>
-            <li class="menu-item">
+            <li class="menu-item <?= ($this->uri->segment(1) == 'user230012') ? 'active' : '' ?>">
                 <a
                     href="<?= site_url('user230012') ?>"
                     
@@ -106,9 +105,9 @@
                     <div class="text-truncate" data-i18n="User">User</div>
                 </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item <?= ($this->uri->segment(1) == 'sales230012') ? 'active' : '' ?>">
                 <a
-                    href="<?= site_url('cats230012/sales') ?>"
+                    href="<?= site_url('sales230012') ?>"
                     
                     class="menu-link">
                     <i class="menu-icon tf-icons bx bxs-report"></i>

@@ -61,6 +61,7 @@ class Auth230012 extends CI_Controller
 
     public function changepassword()
     {
+        // var_dump($this->input->post('change')); die;
         if (!$this->session->userdata('username_230012')) redirect('auth230012/login');
 
         if ($this->input->post('change') && $this->validate('change')) {
@@ -78,7 +79,7 @@ class Auth230012 extends CI_Controller
             }
         }
 
-        $this->load->view('auth/form_change_password_230012');
+        redirect('user230012/profile');
     }
 
     public function changephoto()
